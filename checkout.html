@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - StyleCraft</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>StyleCraft</h1></div>
+                <nav class="nav-desktop">
+                    <a href="index.html#home" class="nav-link">Home</a>
+                    <a href="index.html#products" class="nav-link">Products</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="checkout-page">
+        <div class="container">
+            <div class="checkout-grid">
+                <section class="checkout-section">
+                    <h2 class="section-title">Shipping Details</h2>
+                    <form class="form-grid" id="shippingForm">
+                        <div class="form-field">
+                            <label>Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-field">
+                            <label>Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-field">
+                            <label>Phone</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-field form-span-2">
+                            <label>Address</label>
+                            <input type="text" id="address" required>
+                        </div>
+                        <div class="form-field">
+                            <label>City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-field">
+                            <label>Postal Code</label>
+                            <input type="text" id="postal" required>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="checkout-section">
+                    <h2 class="section-title">Payment</h2>
+                    <form class="form-grid" id="paymentForm">
+                        <div class="form-field form-span-2">
+                            <label>Card Number</label>
+                            <input type="text" id="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="form-field">
+                            <label>Expiry</label>
+                            <input type="text" id="expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-field">
+                            <label>CVV</label>
+                            <input type="password" id="cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123" required>
+                        </div>
+                        <button class="btn-primary form-span-2" id="payNowBtn" type="submit">Pay Now</button>
+                    </form>
+                </section>
+
+                <aside class="checkout-summary">
+                    <h3>Order Summary</h3>
+                    <div id="orderItems"></div>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span id="shipping">₹0</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="grandTotal">₹0</span>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    const INR_EXCHANGE_RATE = 83;
+    const inrFormatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+    function formatInrFromUsd(usdAmount) { return inrFormatter.format(usdAmount * INR_EXCHANGE_RATE); }
+
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; }
+    }
+
+    function renderSummary() {
+      const cart = getCart();
+      const itemsEl = document.getElementById('orderItems');
+      if (cart.length === 0) {
+        itemsEl.innerHTML = '<p class="empty-message">Your cart is empty.</p>';
+      } else {
+        itemsEl.innerHTML = cart.map(item => `
+          <div class="summary-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div>
+              <div class="summary-item-title">${item.name}</div>
+              <div class="summary-item-meta">${item.selectedSize ? `Size: ${item.selectedSize} · ` : ''}${item.selectedColor ? `Color: ${item.selectedColor} · ` : ''}Qty: ${item.quantity || 1}</div>
+            </div>
+            <div class="summary-item-price">${formatInrFromUsd(item.price * (item.quantity || 1))}</div>
+          </div>
+        `).join('');
+      }
+
+      const subtotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
+      const shipping = subtotal > 0 ? 4.99 : 0; // USD
+      document.getElementById('subtotal').textContent = formatInrFromUsd(subtotal);
+      document.getElementById('shipping').textContent = formatInrFromUsd(shipping);
+      document.getElementById('grandTotal').textContent = formatInrFromUsd(subtotal + shipping);
+    }
+
+    function setFieldError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const wrapper = field.closest('.form-field');
+      if (!wrapper) return;
+      wrapper.classList.add('error');
+      let err = wrapper.querySelector('.field-error');
+      if (!err) {
+        err = document.createElement('div');
+        err.className = 'field-error';
+        wrapper.appendChild(err);
+      }
+      err.textContent = message;
+    }
+
+    function clearFieldError(fieldId) {
+      const field = document.getElementById(fieldId);
+      const wrapper = field.closest('.form-field');
+      if (!wrapper) return;
+      wrapper.classList.remove('error');
+      const err = wrapper.querySelector('.field-error');
+      if (err) err.textContent = '';
+    }
+
+    function formatCardNumber(value) {
+      return value.replace(/\D/g, '').slice(0,16).replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+    }
+    function formatExpiry(value) {
+      let v = value.replace(/\D/g, '').slice(0,4);
+      if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
+      return v;
+    }
+    function validateForms() {
+      let valid = true;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const postal = document.getElementById('postal').value.trim();
+      const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g,'');
+      const expiry = document.getElementById('expiry').value;
+      const cvv = document.getElementById('cvv').value;
+
+      // Clear previous
+      ['name','email','phone','address','city','postal','cardNumber','expiry','cvv'].forEach(clearFieldError);
+
+      if (name.length < 2) { setFieldError('name','Please enter your full name'); valid = false; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { setFieldError('email','Enter a valid email'); valid = false; }
+      if (!/^\d{10}$/.test(phone.replace(/\D/g,''))) { setFieldError('phone','Enter a 10-digit phone'); valid = false; }
+      if (address.length < 5) { setFieldError('address','Enter a valid address'); valid = false; }
+      if (city.length < 2) { setFieldError('city','Enter your city'); valid = false; }
+      if (!/^\d{4,6}$/.test(postal.replace(/\D/g,''))) { setFieldError('postal','Enter postal code'); valid = false; }
+
+      if (cardNumber.length !== 16) { setFieldError('cardNumber','Enter 16-digit card'); valid = false; }
+      if (!/^\d{2}\/\d{2}$/.test(expiry)) { setFieldError('expiry','MM/YY'); valid = false; }
+      if (!/^\d{3,4}$/.test(cvv)) { setFieldError('cvv','3-4 digit CVV'); valid = false; }
+
+      return valid;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSummary();
+
+      // Input formatting
+      const num = document.getElementById('cardNumber');
+      const exp = document.getElementById('expiry');
+      num.addEventListener('input', () => { num.value = formatCardNumber(num.value); });
+      exp.addEventListener('input', () => { exp.value = formatExpiry(exp.value); });
+
+      document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!validateForms()) return;
+        const btn = document.getElementById('payNowBtn');
+        btn.classList.add('loading');
+        btn.textContent = 'Processing...';
+        await new Promise(r => setTimeout(r, 1200));
+        localStorage.setItem('cart', JSON.stringify([]));
+        alert('Payment successful! Thank you for your order.');
+        window.location.href = 'index.html';
+      });
+    });
+    </script>
+</body>
+</html>
+

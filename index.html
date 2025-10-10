@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleCraft - Premium Fashion Collection</title>
+    <link rel="preload" as="style" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1>StyleCraft</h1>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-desktop">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#products" class="nav-link">Products</a>
+                    <a href="#collections" class="nav-link">Collections</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
+                    </div>
+                </div>
+
+                <!-- Header Actions -->
+                <div class="header-actions">
+                    <button class="action-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="action-btn" id="wishlistBtn">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge" id="wishlistCount">0</span>
+                    </button>
+                    <button class="action-btn" id="cartBtn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cartCount">0</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Search -->
+            <div class="mobile-search">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="mobileSearchInput" placeholder="Search products..." class="search-input">
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="#home" class="mobile-nav-link">Home</a>
+                <a href="#products" class="mobile-nav-link">Products</a>
+                <a href="#collections" class="mobile-nav-link">Collections</a>
+                <a href="#about" class="mobile-nav-link">About</a>
+                <a href="#contact" class="mobile-nav-link">Contact</a>
+                <div class="mobile-actions">
+                    <button class="mobile-action-btn">
+                        <i class="fas fa-user"></i> Account
+                    </button>
+                    <button class="mobile-action-btn">
+                        <i class="fas fa-heart"></i> Wishlist
+                        <span class="badge">0</span>
+                    </button>
+                    <button class="mobile-action-btn">
+                        <i class="fas fa-shopping-bag"></i> Cart
+                        <span class="badge">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-sparkles"></i>
+                    New Collection Available
+                </div>
+                <h1 class="hero-title">
+                    Discover Your
+                    <span class="hero-title-gradient shimmer">Perfect Style</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Explore our curated collection of premium fashion pieces designed to elevate your wardrobe. 
+                    From timeless classics to contemporary trends.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary">
+                        Shop Collection
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn-secondary">
+                        View Lookbook
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="hero-decoration hero-decoration-1"></div>
+        <div class="hero-decoration hero-decoration-2"></div>
+        <div class="hero-decoration hero-decoration-3"></div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Products</h2>
+                <p class="section-subtitle">Discover our handpicked collection of trending fashion pieces</p>
+            </div>
+
+            <div class="featured-carousel">
+                <div class="swiper featuredSwiper">
+                    <div class="swiper-wrapper" id="featuredSwiperWrapper">
+                        <!-- Featured products will be loaded here by JavaScript -->
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Collection</h2>
+                <p class="section-subtitle">Browse through our carefully curated selection of fashion items</p>
+            </div>
+
+            <div class="products-layout">
+                <!-- Filters Sidebar -->
+                <aside class="filters-sidebar" id="filtersSidebar">
+                    <div class="filters-header">
+                        <i class="fas fa-filter"></i>
+                        <h3>Filters</h3>
+                    </div>
+                    
+                    <div class="filters-content">
+                        <div class="filter-count">
+                            Showing <span id="productCount">8</span> products
+                        </div>
+
+                        <button class="clear-filters" id="clearFilters" style="display: none;">
+                            <i class="fas fa-times"></i>
+                            Clear all filters
+                        </button>
+
+                        <!-- Category Filter -->
+                        <div class="filter-section">
+                            <div class="filter-header" data-filter="category">
+                                <h4>Category</h4>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-content" id="categoryFilter">
+                                <!-- Categories will be loaded by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Brand Filter -->
+                        <div class="filter-section">
+                            <div class="filter-header" data-filter="brand">
+                                <h4>Brand</h4>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-content" id="brandFilter">
+                                <!-- Brands will be loaded by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Price Filter -->
+                        <div class="filter-section">
+                            <div class="filter-header" data-filter="price">
+                                <h4>Price Range</h4>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-content" id="priceFilter">
+                                <div class="price-inputs">
+                                    <input type="number" placeholder="Min (₹)" id="minPrice" class="price-input">
+                                    <input type="number" placeholder="Max (₹)" id="maxPrice" class="price-input">
+                                </div>
+                                <div class="price-ranges">
+                                    <label class="filter-option">
+                                        <input type="radio" name="priceRange" value="inr:0-4000">
+                                        Under ₹4,000
+                                    </label>
+                                    <label class="filter-option">
+                                        <input type="radio" name="priceRange" value="inr:4000-8500">
+                                        ₹4,000 - ₹8,500
+                                    </label>
+                                    <label class="filter-option">
+                                        <input type="radio" name="priceRange" value="inr:8500-16500">
+                                        ₹8,500 - ₹16,500
+                                    </label>
+                                    <label class="filter-option">
+                                        <input type="radio" name="priceRange" value="inr:16500+">
+                                        Over ₹16,500
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rating Filter -->
+                        <div class="filter-section">
+                            <div class="filter-header" data-filter="rating">
+                                <h4>Customer Rating</h4>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-content" id="ratingFilter">
+                                <label class="filter-option">
+                                    <input type="radio" name="rating" value="4.5">
+                                    <div class="rating">
+                                        <span class="stars">★★★★★</span>
+                                        & Up
+                                    </div>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="radio" name="rating" value="4.0">
+                                    <div class="rating">
+                                        <span class="stars">★★★★☆</span>
+                                        & Up
+                                    </div>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="radio" name="rating" value="3.5">
+                                    <div class="rating">
+                                        <span class="stars">★★★☆☆</span>
+                                        & Up
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Products Content -->
+                <div class="products-content">
+                    <!-- Toolbar -->
+                    <div class="products-toolbar">
+                        <div class="toolbar-left">
+                            <span class="product-count-text">
+                                <span id="visibleProductCount">8</span> products
+                            </span>
+                            
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-right">
+                            <i class="fas fa-sort"></i>
+                            <select id="sortSelect" class="sort-select">
+                                <option value="featured">Featured</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="name-az">Name: A to Z</option>
+                                <option value="name-za">Name: Z to A</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Filter Button -->
+                    <div class="mobile-filter-btn">
+                        <button class="btn-filter" id="mobileFilterBtn">
+                            <i class="fas fa-filter"></i>
+                            Filters
+                        </button>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Products will be loaded here by JavaScript -->
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="load-more">
+                        <button class="btn-load-more">Load More Products</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">StyleCraft</h3>
+                    <p class="footer-text">
+                        Your destination for premium fashion. We curate the finest collection of 
+                        clothing and accessories to help you express your unique style.
+                    </p>
+                    <div class="social-links">
+                        <h4>Follow Us</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Collections</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Sale</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Style Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Get in Touch</h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span> New Delhi</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 8888822222</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>hello@stylecraft.com</span>
+                        </div>
+                    </div>
+
+                    <div class="newsletter">
+                        <h5>Newsletter</h5>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Your email" class="newsletter-input">
+                            <button class="newsletter-btn">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2024 StyleCraft. All rights reserved.
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <div class="modal-images">
+                    <div class="main-image">
+                        <img id="modalMainImage" src="" alt="">
+                        <button class="image-nav prev" id="modalPrevImage">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="image-nav next" id="modalNextImage">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="thumbnail-images" id="modalThumbnails">
+                        <!-- Thumbnails will be loaded by JavaScript -->
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <div class="product-meta">
+                        <span class="product-brand" id="modalBrand"></span>
+                        <span class="product-category" id="modalCategory"></span>
+                    </div>
+                    <h1 class="product-title" id="modalTitle"></h1>
+                    <div class="product-rating" id="modalRating">
+                        <!-- Rating will be loaded by JavaScript -->
+                    </div>
+                    <div class="product-price" id="modalPrice">
+                        <!-- Price will be loaded by JavaScript -->
+                    </div>
+                    <p class="product-description" id="modalDescription"></p>
+                    
+                    <div class="product-options">
+                        <div class="color-selection" id="modalColors" style="display: none;">
+                            <label>Color:</label>
+                            <div class="color-options">
+                                <!-- Colors will be loaded by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="size-selection" id="modalSizes" style="display: none;">
+                            <label>Size:</label>
+                            <div class="size-options">
+                                <!-- Sizes will be loaded by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="quantity-selection">
+                            <label>Quantity:</label>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" id="decreaseQuantity">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="quantity-value" id="quantityValue">1</span>
+                                <button class="quantity-btn" id="increaseQuantity">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="btn-add-to-cart" id="modalAddToCart">
+                            <i class="fas fa-shopping-bag"></i>
+                            Add to Cart
+                        </button>
+                        <button class="btn-wishlist" id="modalWishlist">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="stock-status" id="modalStock">
+                        <i class="fas fa-check"></i> In Stock
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Filters Modal -->
+    <div class="mobile-filters-overlay" id="mobileFiltersModal">
+        <div class="mobile-filters-content">
+            <div class="mobile-filters-header">
+                <h3>Filters</h3>
+                <button class="mobile-filters-close" id="mobileFiltersClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mobile-filters-body">
+                <!-- Same filters content as desktop -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Side Drawers -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <aside class="drawer" id="cartDrawer" aria-hidden="true" aria-labelledby="cartDrawerTitle" role="dialog">
+        <div class="drawer-header">
+            <h3 id="cartDrawerTitle">Your Cart</h3>
+            <button class="drawer-close" data-drawer-close>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="drawer-body" id="cartDrawerBody">
+            <!-- Cart items injected by JS -->
+        </div>
+        <div class="drawer-footer" id="cartDrawerFooter">
+            <!-- Totals and actions injected by JS -->
+        </div>
+    </aside>
+
+    <aside class="drawer" id="wishlistDrawer" aria-hidden="true" aria-labelledby="wishlistDrawerTitle" role="dialog">
+        <div class="drawer-header">
+            <h3 id="wishlistDrawerTitle">Your Wishlist</h3>
+            <button class="drawer-close" data-drawer-close>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="drawer-body" id="wishlistDrawerBody">
+            <!-- Wishlist items injected by JS -->
+        </div>
+    </aside>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
